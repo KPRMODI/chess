@@ -346,8 +346,8 @@ public class ChessGame extends JFrame {
             add(new BoardCanvas(), BorderLayout.CENTER);
             add(buildSidebar(),    BorderLayout.EAST);
 
-            resetBoard();
-            startClockTimer();
+            resetBoard(); 
+            // Timer is safely started inside resetBoard() now!
         }
 
         // =====================================================================
