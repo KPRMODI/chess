@@ -49,7 +49,7 @@ import javax.swing.border.EmptyBorder;
  *   javac ChessGame.java
  *   java  ChessGame
  *
- * Place your piece images in a folder called "resources/" next to ChessGame.java:
+ * Place your piece images in a folder called "images/" next to ChessGame.java:
  *   whiteking.png  whitequeen.png  whiterook.png  whitebishop.png
  *   whiteknight.png  whitepawn.png  (same pattern for "black")
  *
@@ -762,10 +762,10 @@ public class ChessGame extends JFrame {
             int piece=board[fr][fc], type=Math.abs(piece), col=color(piece);
             lastFR=fr; lastFC=fc; lastTR=tr; lastTC=tc;
 
-            // En passant
-            int newEP = -1;
-            boolean ep = type==PAWN && fc==enPassantCol
-                      && Math.abs(fr-tr)==1 && Math.abs(fc-tc)==1 && board[tr][tc]==EMPTY;
+        // En passant
+        int newEP = -1;
+        boolean ep = type==PAWN && tc==enPassantCol
+            && Math.abs(fr-tr)==1 && Math.abs(fc-tc)==1 && board[tr][tc]==EMPTY;
             if (ep) board[fr][tc]=EMPTY;
             if (type==PAWN && Math.abs(tr-fr)==2) newEP=fc;
 
@@ -959,8 +959,8 @@ public class ChessGame extends JFrame {
             int[]    types=  {PAWN,KNIGHT,BISHOP,ROOK,QUEEN,KING};
             String[] names=  {"pawn","knight","bishop","rook","queen","king"};
             for(int i=0;i<types.length;i++){
-                images.put( types[i], loadImg("resources/white"+names[i]+".png"));
-                images.put(-types[i], loadImg("resources/black"+names[i]+".png"));
+                images.put( types[i], loadImg("images/white"+names[i]+".png"));
+                images.put(-types[i], loadImg("images/black"+names[i]+".png"));
             }
         }
         private BufferedImage loadImg(String p){ try{ return ImageIO.read(new File(p)); }catch(IOException e){ return null; } }
@@ -1048,7 +1048,7 @@ public class ChessGame extends JFrame {
             MoveResult mr=new MoveResult();
             mr.epCol=epCol; mr.wkm=wkm; mr.bkm=bkm; mr.wram=wram; mr.wrhm=wrhm; mr.bram=bram; mr.brhm=brhm;
             int piece=b[fr][fc], type=Math.abs(piece);
-            if(type==PAWN && fc==epCol && Math.abs(fr-tr)==1 && Math.abs(fc-tc)==1 && b[tr][tc]==EMPTY) b[fr][tc]=EMPTY;
+            if(type==PAWN&&tc==epCol&&Math.abs(fr-tr)==1&&Math.abs(fc-tc)==1&&b[tr][tc]==EMPTY) b[fr][tc]=EMPTY;
             mr.epCol=(type==PAWN && Math.abs(tr-fr)==2)?fc:-1;
             if(type==KING && Math.abs(tc-fc)==2){ if(tc==6){b[fr][5]=b[fr][7];b[fr][7]=EMPTY;}else{b[fr][3]=b[fr][0];b[fr][0]=EMPTY;} }
             b[tr][tc]=piece; b[fr][fc]=EMPTY;
