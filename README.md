@@ -1,62 +1,51 @@
+I've reorganized the documentation for you. It now prioritizes getting the project onto your local machine first, followed by the specific setup for IDEs, and finally the command-line execution.
+
+---
+
 # ♟ Chess – Java Swing
 
-A fully playable, single-file Java chess game built with Swing.  
+A fully playable, single-file Java chess game built with Swing.  
 No external libraries required – just a standard JDK.
 
----
+## 1. Getting the Project
 
-## Features
+Before running the game, you need to bring the code onto your machine.
 
-| Feature | Details |
-|---|---|
-| **2-Player** | Alternate moves locally on the same machine |
-| **vs AI** | Minimax + alpha-beta pruning (depth 3), piece-square table evaluation |
-| **Full chess rules** | Castling (both sides), en passant, pawn promotion |
-| **Check / Checkmate / Stalemate** | Detected automatically |
-| **Threefold repetition** | Triggers an automatic draw |
-| **Countdown clocks** | Per-player timer (No clock / 1 / 3 / 5 / 10 / 15 min), chosen at the menu |
-| **Move history sidebar** | Scrollable algebraic-notation move list |
-| **Evaluation bar** | Live centipawn score bar, toggleable with one click |
-| **Legal-move highlighting** | Green dots for empty squares, corner rings for captures |
-| **Last-move highlight** | Yellow tint on from/to squares |
-| **King-in-check glow** | Red overlay on the king's square |
-| **Scalable board** | Resizes with the window |
-| **Piece image fallback** | Renders Unicode symbols if images are missing |
+**Option A: Using Git (Recommended)**
+```bash
+# Clone the repository
+git clone https://github.com/your-username/chess.git
 
----
-
-## Project Structure
-
-```
-Chess/
-├── ChessGame.java        ← entire game (single file)
-└── resources/            ← piece images (PNG, 200×200 recommended)
-    ├── whiteking.png
-    ├── whitequeen.png
-    ├── whiterook.png
-    ├── whitebishop.png
-    ├── whiteknight.png
-    ├── whitepawn.png
-    ├── blackking.png
-    ├── blackqueen.png
-    ├── blackrook.png
-    ├── blackbishop.png
-    ├── blackknight.png
-    └── blackpawn.png
+# Enter the directory
+cd chess
 ```
 
-> **No images?** The game still works — pieces fall back to Unicode chess symbols (♔♕♖♗♘♙).
+**Option B: Manual Download**
+1. Download the ZIP file from the repository.
+2. Extract the contents to a folder of your choice.
+3. Ensure the `ChessGame.java` file and the `resources/` folder are in the same directory.
 
 ---
 
-## Requirements
+## 2. Setting Up Your IDE
 
-- **Java 8 or newer** (Swing is built into every standard JDK)
-- No Maven, Gradle, or external libraries needed
+### **IntelliJ IDEA**
+1. Open IntelliJ → **File → Open** → select the folder you just cloned/extracted.
+2. If IntelliJ asks to set up a module, choose **"Create module from existing sources"**.
+3. **Important:** Right-click the `resources/` folder in the Project panel → **Mark Directory as → Resources Root**.
+4. Right-click `ChessGame.java` → **Run 'ChessGame.main()'**.
+
+### **VS Code**
+1. Install the **Extension Pack for Java** from the Marketplace.
+2. Open the project folder (**File → Open Folder**).
+3. Open `ChessGame.java`.
+4. Click the **▶ Run** button that appears above the `main` method, or press `F5`.
 
 ---
 
-## Running from the Command Line
+## 3. Running from the Command Line
+
+If you prefer to run without an IDE, use these commands from the root of the project folder:
 
 ```bash
 # 1. Compile
@@ -66,64 +55,33 @@ javac ChessGame.java
 java ChessGame
 ```
 
-That's it. Both commands must be run from the folder that contains `ChessGame.java`  
-and the `resources/` folder.
-
 ---
 
-## Running in IntelliJ IDEA
+## Features & UI
 
-1. Open IntelliJ → **File → Open** → select the folder containing `ChessGame.java`.
-2. Right-click `ChessGame.java` in the Project panel → **Run 'ChessGame.main()'**.
-3. If IntelliJ asks you to set up a module, choose **"Create module from existing sources"**.
-4. Make sure the `resources/` folder sits **next to** `ChessGame.java` (not inside `src/`),  
-   or right-click `resources/` → **Mark Directory as → Resources Root**.
+| Feature | Details |
+|---|---|
+| **2-Player / AI** | Play locally or against a Minimax AI (Depth 3) |
+| **Full Rules** | Castling, en passant, pawn promotion, and threefold repetition |
+| **Clocks** | Selectable timers (1, 3, 5, 10, 15 min) or no clock |
+| **Analysis** | Live evaluation bar and algebraic move history sidebar |
+| **Visuals** | Legal move highlighting, last-move tint, and king-in-check glow |
 
----
 
-## Running in VS Code
 
-1. Install the **Extension Pack for Java** from the VS Code Marketplace.
-2. Open the folder containing `ChessGame.java` (**File → Open Folder**).
-3. Click the **▶ Run** button that appears above the `main` method,  
-   or press `F5`.
-4. Make sure `resources/` is in the same folder as `ChessGame.java`.
-
----
-
-## Forking & Contributing
-
-```bash
-# Clone (replace URL with your fork if needed)
-git clone https://github.com/your-username/chess.git
-cd chess
-
-# Compile & run
-javac ChessGame.java
-java ChessGame
+### **Project Structure**
 ```
-
-Everything lives in `ChessGame.java`, so you can edit it directly —  
-no build system to configure.
-
----
-
-## How to Play
-
-1. Launch the game → choose **Play vs Friend** or **Play vs AI** and a clock setting.
-2. **Click** a piece to select it (legal destinations light up).
-3. **Click** a highlighted square to move.
-4. The **Eval Bar** on the right shows who's winning (toggle with the button below it).
-5. The **Move History** panel logs every move in algebraic notation.
-6. The game ends on **checkmate**, **stalemate**, **threefold repetition**, or **clock expiry**.
+Chess/
+├── ChessGame.java        ← entire game (single file)
+└── resources/            ← piece images (PNG)
+```
+> **Note:** If the `resources/` folder is missing, the game automatically falls back to Unicode chess symbols (♔♕♖♗).
 
 ---
 
-## AI Notes
+## AI & Mechanics
 
-The AI plays as Black and uses:
-- **Minimax search** with **alpha-beta pruning** at depth 3
-- **Piece-square tables** for positional evaluation
-- Auto-promotes pawns to Queen during search
+The AI (playing as Black) evaluates positions using **Piece-Square Tables**. These tables tell the AI which squares are strategically better for specific pieces (e.g., Knights are better in the center than on the rim).
 
-Increase `AI_DEPTH` in the source for a stronger (but slower) engine.
+* **Minimax & Alpha-Beta:** The engine calculates the best move by "pruning" branches of the move tree that it knows are suboptimal, saving significant processing time.
+* **Difficulty:** You can increase the `AI_DEPTH` constant in the `ChessGame.java` source code for a stronger challenge, though depth 4+ may cause slight delays in move calculation.
