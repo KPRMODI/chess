@@ -177,7 +177,9 @@ public class ChessGame extends JFrame {
         btn.setPreferredSize(new Dimension(260, 56));
         Color hover = bg.brighter();
         btn.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseEntered(MouseEvent e) { btn.setBackground(hover); }
+            @Override
             public void mouseExited (MouseEvent e) { btn.setBackground(bg);    }
         });
         return btn;
@@ -448,7 +450,9 @@ public class ChessGame extends JFrame {
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
             Color hov = new Color(0x555555);
             btn.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseEntered(MouseEvent e) { btn.setBackground(hov); }
+                @Override
                 public void mouseExited (MouseEvent e) { btn.setBackground(new Color(0x3A3A3A)); }
             });
             return btn;
@@ -841,11 +845,14 @@ public class ChessGame extends JFrame {
         }
 
         private String pieceChar(int type) {
-            switch(type){
-                case KNIGHT:return"N"; case BISHOP:return"B";
-                case ROOK:  return"R"; case QUEEN: return"Q"; case KING:return"K";
-                default: return"";
-            }
+            return switch (type) {
+                case KNIGHT -> "N";
+                case BISHOP -> "B";
+                case ROOK -> "R";
+                case QUEEN -> "Q";
+                case KING -> "K";
+                default -> "";
+            };
         }
 
         private void refreshSidebar() {
@@ -865,7 +872,16 @@ public class ChessGame extends JFrame {
             String pick=(String)JOptionPane.showInputDialog(this,"Promote pawn:","Pawn Promotion",
                     JOptionPane.PLAIN_MESSAGE,null,opts,"Queen");
             if (pick==null) return QUEEN;
-            switch(pick){case"Rook":return ROOK;case"Bishop":return BISHOP;case"Knight":return KNIGHT;}
+            switch(pick){case"Rook" -> {
+                return ROOK;
+                }
+case"Bishop" -> {
+    return BISHOP;
+                }
+case"Knight" -> {
+    return KNIGHT;
+                }
+}
             return QUEEN;
         }
 
@@ -1027,13 +1043,48 @@ public class ChessGame extends JFrame {
         }
 
         private int pieceValue(int t){
-            switch(t){case PAWN:return 100;case KNIGHT:return 320;case BISHOP:return 330;
-                       case ROOK:return 500;case QUEEN:return 900;case KING:return 20000;} return 0;
+            switch(t){case PAWN -> {
+                return 100;
+                }
+case KNIGHT ->  {
+    return 320;
+                }
+case BISHOP ->  {
+    return 330;
+                }
+                       case ROOK -> {
+                           return 500;
+                }
+case QUEEN ->   {
+    return 900;
+                }
+case KING ->    {
+    return 20000;
+                }
+}
+return 0;
         }
         private int pst(int t,int r,int c){
-            switch(t){case PAWN:return PST_PAWN[r][c];case KNIGHT:return PST_KNIGHT[r][c];
-                       case BISHOP:return PST_BISHOP[r][c];case ROOK:return PST_ROOK[r][c];
-                       case QUEEN:return PST_QUEEN[r][c];case KING:return PST_KING[r][c];} return 0;
+            switch(t){case PAWN -> {
+                return PST_PAWN[r][c];
+                }
+case KNIGHT ->  {
+    return PST_KNIGHT[r][c];
+                }
+                       case BISHOP -> {
+                           return PST_BISHOP[r][c];
+                }
+case ROOK ->    {
+    return PST_ROOK[r][c];
+                }
+                       case QUEEN -> {
+                           return PST_QUEEN[r][c];
+                }
+case KING ->    {
+    return PST_KING[r][c];
+                }
+}
+return 0;
         }
 
         // =====================================================================
@@ -1095,12 +1146,12 @@ public class ChessGame extends JFrame {
             List<int[]> mv=new ArrayList<>();
             int piece=b[row][col],type=Math.abs(piece),side=color(piece);
             switch(type){
-                case PAWN:  addPawnMoves  (b,row,col,side,epCol,mv); break;
-                case KNIGHT:addKnightMoves(b,row,col,side,mv); break;
-                case BISHOP:addSliding(b,row,col,side,mv,new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}}); break;
-                case ROOK:  addSliding(b,row,col,side,mv,new int[][]{{1,0},{-1,0},{0,1},{0,-1}}); break;
-                case QUEEN: addSliding(b,row,col,side,mv,new int[][]{{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}}); break;
-                case KING:  addKingMoves(b,row,col,side,mv,wkm,bkm,wram,wrhm,bram,brhm); break;
+                case PAWN -> addPawnMoves  (b,row,col,side,epCol,mv);
+                case KNIGHT -> addKnightMoves(b,row,col,side,mv);
+                case BISHOP -> addSliding(b,row,col,side,mv,new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}});
+                case ROOK -> addSliding(b,row,col,side,mv,new int[][]{{1,0},{-1,0},{0,1},{0,-1}});
+                case QUEEN -> addSliding(b,row,col,side,mv,new int[][]{{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}});
+                case KING -> addKingMoves(b,row,col,side,mv,wkm,bkm,wram,wrhm,bram,brhm);
             }
             return mv;
         }
@@ -1195,8 +1246,44 @@ public class ChessGame extends JFrame {
         }
         private static String unicodeFor(int piece){
             int t=Math.abs(piece);
-            if(color(piece)==WHITE) switch(t){case KING:return"♔";case QUEEN:return"♕";case ROOK:return"♖";case BISHOP:return"♗";case KNIGHT:return"♘";case PAWN:return"♙";}
-            else                    switch(t){case KING:return"♚";case QUEEN:return"♛";case ROOK:return"♜";case BISHOP:return"♝";case KNIGHT:return"♞";case PAWN:return"♟";}
+            if(color(piece)==WHITE) switch(t){case KING -> {
+                return"♔";
+                }
+case QUEEN ->   {
+    return"♕";
+                }
+case ROOK ->    {
+    return"♖";
+                }
+case BISHOP ->  {
+    return"♗";
+                }
+case KNIGHT ->  {
+    return"♘";
+                }
+case PAWN ->    {
+    return"♙";
+                }
+}
+            else                    switch(t){case KING -> {
+                return"♚";
+                }
+case QUEEN ->   {
+    return"♛";
+                }
+case ROOK ->    {
+    return"♜";
+                }
+case BISHOP ->  {
+    return"♝";
+                }
+case KNIGHT ->  {
+    return"♞";
+                }
+case PAWN ->    {
+    return"♟";
+                }
+}
             return"?";
         }
     }
