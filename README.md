@@ -25,6 +25,9 @@ cd chess
 2. Extract the contents to a folder of your choice.
 3. Ensure the `ChessGame.java` file and the `resources/` folder are in the same directory.
 
+
+**Option C: Fork the Repo**
+1. Fork the Repo and clone it to your IDE and run!
 ---
 
 ## 2. Setting Up Your IDE
